@@ -1,0 +1,6 @@
+$dokka.format:html-v1
+$dokka.linkExtension:html
+$dokka.location:com.jakewharton.finalization////PointingToDeclaration/finalization-hook/com.jakewharton.finalization/index.html
+$dokka.location:com.jakewharton.finalization//withFinalizationHook/#kotlin.Function0[kotlin.Unit]#kotlin.coroutines.SuspendFunction1[kotlinx.coroutines.CoroutineScope,TypeParam(bounds=[kotlin.Any?])]/PointingToDeclaration/finalization-hook/com.jakewharton.finalization/with-finalization-hook.html
+com.jakewharton.finalization
+
