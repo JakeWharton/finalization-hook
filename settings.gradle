@@ -1,0 +1,4 @@
+rootProject.name = 'finalization-hook'
+
+include ':'
+include ':test-app'

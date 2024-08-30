@@ -1,0 +1,48 @@
+import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
+import org.jetbrains.kotlin.gradle.plugin.mpp.NativeBuildType
+
+apply plugin: 'org.jetbrains.kotlin.multiplatform'
+apply plugin: 'application'
+
+kotlin {
+	jvm {
+		withJava() // For application plugin.
+	}
+
+	linuxArm64()
+	linuxX64()
+
+	macosArm64()
+	macosX64()
+
+	mingwX64()
+
+	sourceSets {
+		commonMain {
+			dependencies {
+				implementation project(':')
+			}
+		}
+	}
+
+	targets.withType(KotlinNativeTarget).configureEach { target ->
+		target.binaries.executable {
+			entryPoint = 'example.main'
+		}
+		target.binaries.configureEach {
+			if (it.buildType == NativeBuildType.DEBUG) {
+				it.linkTaskProvider.configure {
+					enabled = false
+				}
+			}
+		}
+	}
+}
+
+application {
+	mainClass = 'example.Main'
+}
+
+tasks.named('assemble').configure {
+	dependsOn(tasks.named('installDist'))
+}

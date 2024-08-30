@@ -1,0 +1,4 @@
+public final class com/jakewharton/finalization/Hook {
+	public static final fun withFinalizationHook (Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function2;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
