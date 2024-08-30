@@ -22,7 +22,7 @@ an operation completes. If you are only changing state within the application, a
 ## Test App
 
 Build the `:test-app` project to see this in action. Run the app and then hit
-<kbd>Ctrl</kbd>+<kbd>C</kbd> or `kill` the PID.
+<kbd>Ctrl</kbd>+<kbd>C</kbd>:
 
 ```
 $ ./test-app/build/bin/macosArm64/releaseExecutable/test-app.kexe
@@ -31,6 +31,8 @@ BLOCK
 ^CHOOK
 ```
 
+Or run the app and `kill` the PID:
+
 ```
 $ ./test-app/build/bin/macosArm64/releaseExecutable/test-app.kexe
 START
@@ -38,7 +40,7 @@ BLOCK
 HOOK
 Terminated: 15
 ```
-In another terminal pane:
+(In another terminal pane)
 ```
 $ ps | grep test-app
 32769 ttys004    0:00.02 ./test-app/build/bin/macosArm64/releaseExecutable/test-app.kexe
