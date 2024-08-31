@@ -10,9 +10,8 @@ on:
       - '**'
 
 jobs:
-  build:
+  library:
     runs-on: macos-latest
-
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
@@ -20,7 +19,42 @@ jobs:
           distribution: 'zulu'
           java-version: 11
 
-      - run: ./gradlew build
+      - run: ./gradlew :build
+
+  test-app:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: macOS-latest
+            test: build/bin/macosArm64/debugTest/test.kexe
+          - os: ubuntu-latest
+            test: build/bin/linuxX64/debugTest/test.kexe
+          - os: windows-latest
+            test: build/bin/mingwX64/debugTest/test.exe
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: 11
+
+      - run: ./gradlew :test-app:build
+      - run: ${{ matrix.test }}
+        working-directory: test-app
+
+  publish:
+    runs-on: macos-latest
+    needs:
+      - library
+      - test-app
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: 11
 
       - run: ./gradlew publish
         if: ${{ github.ref == 'refs/heads/trunk' && github.repository == 'JakeWharton/finalization-hook' }}
