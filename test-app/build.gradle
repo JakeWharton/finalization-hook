@@ -1,5 +1,8 @@
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 import org.jetbrains.kotlin.gradle.plugin.mpp.NativeBuildType
+import org.jetbrains.kotlin.gradle.plugin.mpp.TestExecutable
+
+import static org.gradle.language.base.plugins.LifecycleBasePlugin.VERIFICATION_GROUP
 
 apply plugin: 'org.jetbrains.kotlin.multiplatform'
 apply plugin: 'application'
@@ -17,10 +20,28 @@ kotlin {
 
 	mingwX64()
 
+	applyDefaultHierarchyTemplate {
+		it.common {
+			it.group("native") {
+				it.group("posix") {
+					it.group("linux") {}
+					it.group("macos") {}
+				}
+			}
+		}
+	}
+
 	sourceSets {
 		commonMain {
 			dependencies {
 				implementation project(':')
+			}
+		}
+		commonTest {
+			dependencies {
+				implementation libs.kotlin.test
+				implementation libs.kotlinx.coroutines.test
+				implementation libs.assertk
 			}
 		}
 	}
@@ -28,14 +49,19 @@ kotlin {
 	targets.withType(KotlinNativeTarget).configureEach { target ->
 		target.binaries.executable {
 			entryPoint = 'example.main'
-		}
-		target.binaries.configureEach {
-			if (it.buildType == NativeBuildType.DEBUG) {
-				it.linkTaskProvider.configure {
+			if (buildType == NativeBuildType.DEBUG) {
+				linkTaskProvider.configure {
 					enabled = false
 				}
 			}
 		}
+	}
+}
+
+// TODO We should be able to get this TaskProvider from Kotlin's TestExecutable above.
+tasks.configureEach {
+	if (it.name.endsWith("Test") && it.group == VERIFICATION_GROUP) {
+		enabled = false
 	}
 }
 
