@@ -2,11 +2,14 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 import org.jetbrains.kotlin.gradle.plugin.mpp.NativeBuildType
 
 apply plugin: 'org.jetbrains.kotlin.multiplatform'
-apply plugin: 'application'
 
 kotlin {
 	jvm {
-		withJava() // For application plugin.
+		binaries {
+			executable {
+				mainClass = 'example.Main'
+			}
+		}
 	}
 
 	linuxArm64()
@@ -37,12 +40,4 @@ kotlin {
 			}
 		}
 	}
-}
-
-application {
-	mainClass = 'example.Main'
-}
-
-tasks.named('assemble').configure {
-	dependsOn(tasks.named('installDist'))
 }
