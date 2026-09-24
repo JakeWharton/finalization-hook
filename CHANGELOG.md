@@ -8,6 +8,7 @@ New:
 
 Changed:
 - In-development snapshots are now published to the Central Portal Snapshots repository at https://central.sonatype.com/repository/maven-snapshots/.
+- Removed `macosX64` target which is no longer supported by Kotlin/Native.
 
 Fixed:
 - Nothing yet!
